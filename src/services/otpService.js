@@ -4,6 +4,10 @@ export const generateOtp = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
+
+
+
+
 export const saveOtp = async (email, otp) => {
 
     // Delete old OTP
@@ -18,6 +22,9 @@ export const saveOtp = async (email, otp) => {
     });
     console.log("otp crated", res);
 };
+
+
+
 
 export const verifyOtpService = async (email, otp) => {
 

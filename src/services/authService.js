@@ -2,6 +2,8 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
 
+
+
 export const registerUser = async ({ name, email, password }) => {
 
   if (!name || !email || !password) {
@@ -28,6 +30,9 @@ export const registerUser = async ({ name, email, password }) => {
     token
   };
 };
+
+
+
 
 export const loginUser = async ({ email, password }) => {
 
