@@ -19,10 +19,18 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+const allowedOrigin = (process.env.FRONTEND_URL || "").replace(/\/+$/, "");
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  secure: true,
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (origin.replace(/\/+$/, "") === allowedOrigin) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: origin '${origin}' not allowed`));
+    }
+  },
+  credentials: true,
 }));
 
 app.use("/api/auth", authRoutes);
