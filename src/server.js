@@ -24,12 +24,17 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigin = (process.env.FRONTEND_URL || "").replace(/\/+$/, "");
+const allowedOrigins = [
+  (process.env.FRONTEND_URL || "").replace(/\/+$/, ""),
+  "http://localhost:5173",
+  "http://localhost:3000",
+].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (origin.replace(/\/+$/, "") === allowedOrigin) {
+    if (!origin) return callback(null, true); // allow server-to-server / curl
+    const normalised = origin.replace(/\/+$/, "");
+    if (allowedOrigins.includes(normalised)) {
       callback(null, true);
     } else {
       callback(new Error(`CORS: origin '${origin}' not allowed`));
